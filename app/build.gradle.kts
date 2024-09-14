@@ -38,6 +38,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -57,6 +58,9 @@ dependencies {
     val nav_version = "2.8.0"
     val room_version = "2.6.1"
     val paging_version = "3.3.2"
+    val retrofit_version = "2.11.0"
+    val okhttp_version = "4.12.0"
+    val glide_version = "4.16.0"
 
     //navigation
     implementation("androidx.navigation:navigation-fragment:$nav_version")
@@ -74,7 +78,14 @@ dependencies {
     implementation("androidx.paging:paging-runtime:$paging_version")
     implementation("androidx.paging:paging-rxjava3:$paging_version")
 
+    //retrofit
+    implementation ("com.squareup.retrofit2:retrofit:$retrofit_version")
+    implementation ("com.squareup.retrofit2:converter-gson:$retrofit_version")
+
+    //logging interceptor
+    implementation("com.squareup.okhttp3:logging-interceptor:$okhttp_version")
+
     //glide
-    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation ("com.github.bumptech.glide:glide:$glide_version")
 
 }

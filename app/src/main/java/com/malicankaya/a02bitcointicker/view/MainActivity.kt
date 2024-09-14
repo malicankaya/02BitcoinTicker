@@ -5,6 +5,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.malicankaya.a02bitcointicker.BuildConfig
 import com.malicankaya.a02bitcointicker.R
 import com.malicankaya.a02bitcointicker.databinding.ActivityMainBinding
 
@@ -23,5 +24,9 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 }
