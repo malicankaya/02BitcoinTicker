@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
 
     id ("androidx.navigation.safeargs.kotlin")
-    id("com.google.devtools.ksp")
 }
 
 android {
@@ -18,6 +17,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String","API_KEY","${project.findProperty("COINGECKO_API_KEY")}")
     }
 
     buildTypes {
@@ -69,7 +70,7 @@ dependencies {
 
     //room
     implementation("androidx.room:room-runtime:$room_version")
-    ksp("androidx.room:room-compiler:$room_version")
+    //ksp("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     implementation("androidx.room:room-rxjava3:$room_version")
     implementation("androidx.room:room-paging:$room_version")
