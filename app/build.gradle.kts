@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
 
     id ("androidx.navigation.safeargs.kotlin")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -19,6 +20,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String","API_KEY","${project.findProperty("COINGECKO_API_KEY")}")
+        buildConfigField("String","WEB_CLIENT_ID","${project.findProperty("WEB_CLIENT_ID")}")
     }
 
     buildTypes {
@@ -56,12 +58,18 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+
     val nav_version = "2.8.0"
     val room_version = "2.6.1"
     val paging_version = "3.3.2"
     val retrofit_version = "2.11.0"
     val okhttp_version = "4.12.0"
     val glide_version = "4.16.0"
+    val credentialManager_version = "1.2.2"
+    val googleId_version = "1.1.1"
+    val kotlinstdlib_version = "2.0.20"
+
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinstdlib_version")
 
     //navigation
     implementation("androidx.navigation:navigation-fragment:$nav_version")
@@ -89,4 +97,15 @@ dependencies {
     //glide
     implementation ("com.github.bumptech.glide:glide:$glide_version")
 
+    //firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.3.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
+    implementation("com.google.firebase:firebase-firestore")
+
+    //google sign in
+    implementation ("androidx.credentials:credentials:$credentialManager_version")
+    implementation ("androidx.credentials:credentials-play-services-auth:$credentialManager_version")
+    implementation ("com.google.android.libraries.identity.googleid:googleid:$googleId_version")
 }
