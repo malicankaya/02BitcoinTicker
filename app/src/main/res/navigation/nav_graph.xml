@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/coinListFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/coinListFragment"
@@ -13,10 +13,31 @@
         <action
             android:id="@+id/action_coinListFragment_to_coinDetailsFragment"
             app:destination="@id/coinDetailsFragment" />
+        <action
+            android:id="@+id/action_coinListFragment_to_favoriteCoinListFragment"
+            app:destination="@id/favoriteCoinListFragment" />
     </fragment>
     <fragment
         android:id="@+id/coinDetailsFragment"
         android:name="com.malicankaya.a02bitcointicker.view.CoinDetailsFragment"
         android:label="fragment_coin_details"
         tools:layout="@layout/fragment_coin_details" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.malicankaya.a02bitcointicker.view.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_coinListFragment"
+            app:destination="@id/coinListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteCoinListFragment"
+        android:name="com.malicankaya.a02bitcointicker.view.FavoriteCoinListFragment"
+        android:label="fragment_favorite_coin_list"
+        tools:layout="@layout/fragment_favorite_coin_list" >
+        <action
+            android:id="@+id/action_favoriteCoinListFragment_to_coinDetailsFragment"
+            app:destination="@id/coinDetailsFragment" />
+    </fragment>
 </navigation>

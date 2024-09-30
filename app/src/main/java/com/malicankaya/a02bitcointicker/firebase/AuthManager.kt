@@ -36,43 +36,15 @@ class AuthManager {
 
     suspend fun googleSignInRequest(
         context: Context
-    ): GetCredentialResponse {
+    ): GoogleIdTokenCredential? {
         val getCredentialResponse = CredentialManager.create(context)
             .getCredential(context, googleSignIn(context))
 
-        return getCredentialResponse
+        return handleSignIn(getCredentialResponse)
     }
 
-    private fun validateAuth(googleIdTokenCredential: GoogleIdTokenCredential){
-        val idToken = googleIdTokenCredential.idToken
-        val auth = Firebase.auth
-        when {
-            idToken != null -> {
-                // Got an ID token from Google. Use it to authenticate
-                // with Firebase.
-                val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
-                auth.signInWithCredential(firebaseCredential)
-                    .addOnCompleteListener(this) { task ->
-                        if (task.isSuccessful) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success")
-                            val user = auth.currentUser
-                            updateUI(user)
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithCredential:failure", task.exception)
-                            updateUI(null)
-                        }
-                    }
-            }
-            else -> {
-                // Shouldn't happen.
-                Log.d(TAG, "No ID token!")
-            }
-        }
-    }
 
-    fun handleSignIn(result: GetCredentialResponse) {
+    private fun handleSignIn(result: GetCredentialResponse): GoogleIdTokenCredential? {
         // Handle the successfully returned credential.
         val credential = result.credential
 
@@ -82,10 +54,8 @@ class AuthManager {
                     try {
                         // Use googleIdTokenCredential and extract id to validate and
                         // authenticate on your server.
-                        val googleIdTokenCredential = GoogleIdTokenCredential
+                        return GoogleIdTokenCredential
                             .createFrom(credential.data)
-
-                        validateAuth(googleIdTokenCredential)
 
                     } catch (e: GoogleIdTokenParsingException) {
                         Log.e(TAG, "Received an invalid google id token response", e)
@@ -101,5 +71,6 @@ class AuthManager {
                 Log.e(TAG, "Unexpected type of credential")
             }
         }
+        return null
     }
 }
