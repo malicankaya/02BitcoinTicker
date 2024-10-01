@@ -37,11 +37,9 @@ class LoginFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = Firebase.auth
+        user = auth.currentUser
     }
 
-    override fun onStart() {
-        super.onStart()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,13 +55,17 @@ class LoginFragment : Fragment() {
 
         binding.btnGoogleSignIn.setOnClickListener {
             lifecycleScope.launch {
-                authenticate(savedInstanceState)
+                authenticate()
             }
         }
-
     }
 
-    private suspend fun authenticate(bundle: Bundle?) {
+    override fun onStart() {
+        super.onStart()
+        updateUI(user)
+    }
+
+    private suspend fun authenticate() {
         authManager.googleSignInRequest(requireContext()).let {
             val idToken = it?.idToken
             when {
@@ -72,7 +74,8 @@ class LoginFragment : Fragment() {
                     auth.signInWithCredential(firebaseCredential)
                         .addOnCompleteListener(requireActivity()) {
                             if (it.isSuccessful) {
-                                updateUI(auth.currentUser,bundle)
+                                user = auth.currentUser
+                                updateUI(user)
                             } else {
                                 // If sign in fails, display a message to the user.
                             }
@@ -86,10 +89,8 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun updateUI(user: FirebaseUser?, bundle: Bundle?) {
+    private fun updateUI(user: FirebaseUser?) {
         if (user != null) {
-            this.user = user
-
             val navHostFragment = requireActivity().supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment?
             if(navHostFragment != null){
                 val navController = navHostFragment.navController
